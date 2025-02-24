@@ -1,4 +1,4 @@
-# A Foundation Model for Non-Verbal Vocalization
+# voc2vec: A Foundation Model for Non-Verbal Vocalization
 
 This repository contains the code for the paper "**voc2vec: A Foundation Model for Non-Verbal Vocalization**", accepted at ICASSP 2025.
 
@@ -6,13 +6,120 @@ This repository contains the code for the paper "**voc2vec: A Foundation Model f
 [![voc2vec-LS](https://img.shields.io/badge/voc2vecLS-HuggingFace-blue)](https://huggingface.co/alkiskoudounas/voc2vec-ls-pt)
 [![voc2vec-AS](https://img.shields.io/badge/voc2vecAS-HuggingFace-green)](https://huggingface.co/alkiskoudounas/voc2vec-as-pt)
 
-### voc2vec
-
 We propose a novel foundation model, **voc2vec**, specifically designed for non-verbal human data leveraging exclusively open-source non-verbal audio datasets. We employ a collection of 10 datasets covering around 125 hours of non-verbal audio.
 
 Experimental results prove that voc2vec is effective in non-verbal vocalization classification, and it outperforms conventional speech and audio foundation models. Moreover, voc2vec consistently outperforms strong baselines, OpenSmile, and emotion2vec, on six different benchmark datasets. 
 
-voc2vec is the first universal representation model for vocalization tasks.
+voc2vec is the **first universal representation model for vocalization tasks**.
+
+## Table of Contents
+
+- [Pretraining](#pretraining)
+- [Finetuning](#finetuning)
+- [Usage](#usage)
+- [Models](#models)
+- [Citation](#citation)
+- [License](#license)
+
+## Pretraining
+
+The core contribution of voc2vec lies in the careful selection of diverse, open-source datasets for pre-training, specifically chosen to focus on non-verbal vocalizations. 
+These datasets collectively cover around 125 hours of audio, ensuring that the model is exposed to a wide variety of human vocalizations, typically underrepresented in speech datasets.
+Each dataset is chosen to represent different forms of non-verbal communication, such as emotional bursts, human reactions, and environmental sounds that involve vocal interaction. 
+The datasets used for pre-training are summarized in the table below. 
+
+| Dataset                                 | Dur. (h) | \# Samples | Avg Dur. (s) |
+|-----------------------------------------|:--------:|:----------:|:------------:|
+| AudioSet (vocalization)                 |   36.94  |    13439   |     9.90     |
+| FreeSound (babies)                      |   23.42  |    1450    |     58.15    |
+| HumanVoiceDataset                       |   0.06   |     179    |     1.21     |
+| NNIME                                   |   3.55   |    5596    |     2.28     |
+| NonSpeech7K                             |   6.72   |    6983    |     3.46     |
+| ReCANVo                                 |   2.46   |    7077    |     1.25     |
+| SingingDatabase                         |   3.97   |     113    |    126.48    |
+| TUT (babies)                            |   13.17  |    1540    |     30.79    |
+| VocalSketch                             |   10.53  |    10705   |     3.54     |
+| VocalSound                              |   24.37  |    20985   |     4.18     |
+| **Voc125 (Total)**                      |**125.19**| **68067**  |   **6.67**   |
+
+
+## Finetuning
+
+We evaluate voc2vec on six classification tasks using diverse datasets, each covering different types of non-verbal vocalizations. 
+The datasets and their characteristics are summarized in the table below.
+
+| Dataset                       | \# Classes | Dur. (h) | \# Samples | \# Avg Dur. (s) |
+|-------------------------------|------------|:--------:|:----------:|:---------------:|
+| ASVP-ESD                      |     13     |   15.07  |    12625   |       4.30      |
+| ASVP-ESD (babies)             |      7     |   2.91   |    1339    |       8.22      |
+| CNVVE                         |      6     |    0.2   |     921    |       0.78      |
+| Donate A Cry                  |      5     |   0.88   |     457    |       6.93      |
+| NonVerbal Vocalization        |     16     |    0.6   |     800    |       3.10      |
+| VIVAE                         |      6     |   0.27   |    1085    |       0.90      |
+
+
+## Usage
+
+The model can be loaded using the `transformers` library. You need to install the following dependencies:
+
+```bash
+pip install transformers
+pip install librosa
+```
+
+Then, you can load and use the model as follows:
+
+```python
+import torch
+import librosa
+from transformers import AutoModelForAudioClassification, AutoFeatureExtractor
+
+## Load an audio file
+audio_array, sr = librosa.load("path_to_audio.wav", sr=16000)
+
+## Load model and feature extractor
+model = AutoModelForAudioClassification.from_pretrained("alkiskoudounas/voc2vec")
+feature_extractor = AutoFeatureExtractor.from_pretrained("alkiskoudounas/voc2vec")
+
+## Extract features
+inputs = feature_extractor(audio_array.squeeze(), sampling_rate=feature_extractor.sampling_rate, padding=True, return_tensors="pt")
+
+## Compute logits
+logits = model(**inputs).logits
+```
+
+
+## Models
+
+We open-source three models:
+
+| Model | Description | Link |
+|--------|-------------|------|
+| **voc2vec** | Pre-trained model on **125 hours of non-verbal audio**. | [🔗 Model](https://huggingface.co/alkiskoudounas/voc2vec) |
+| **voc2vec-as-pt** | Continues pre-training from a model that was **initially trained on the AudioSet dataset**. | [🔗 Model](https://huggingface.co/alkiskoudounas/voc2vec-as-pt) |
+| **voc2vec-ls-pt** | Continues pre-training from a model that was **initially trained on the LibriSpeech dataset**. | [🔗 Model](https://huggingface.co/alkiskoudounas/voc2vec-ls-pt) |
+
+For more information about the model, please refer to the [paper]().
+
+## Citation
 
 > [!IMPORTANT]  
-> 🚨 The repository is under construction and will be updated with code, models, and instructions soon.
+If you use this model in your research, please cite the following paper:
+
+```bibtex
+@INPROCEEDINGS{koudounas25_icassp,
+  author={Koudounas, Alkis and La Quatra, Moreno and Siniscalchi, Sabato Marco and Baralis, Elena},
+  booktitle={ICASSP 2025 - 2025 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)}, 
+  title={voc2vec: A Foundation Model for Non-Verbal Vocalization}, 
+  year={2025},
+  volume={},
+  number={},
+  pages={},
+  keywords={},
+  doi={}
+}
+```
+
+## License
+
+This code and the models are released under the Apache 2.0 license. See the [LICENSE](LICENSE) file for more details.
