@@ -107,16 +107,13 @@ For more information about the model, please refer to the [paper]().
 If you use this model in your research, please cite the following paper:
 
 ```bibtex
-@INPROCEEDINGS{koudounas25_icassp,
+@inproceedings{koudounas2025voc2vec,
+  title={voc2vec: A Foundation Model for Non-Verbal Vocalization},
   author={Koudounas, Alkis and La Quatra, Moreno and Siniscalchi, Sabato Marco and Baralis, Elena},
-  booktitle={ICASSP 2025 - 2025 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)}, 
-  title={voc2vec: A Foundation Model for Non-Verbal Vocalization}, 
+  booktitle={ICASSP 2025-2025 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  pages={1--5},
   year={2025},
-  volume={},
-  number={},
-  pages={},
-  keywords={},
-  doi={}
+  organization={IEEE}
 }
 ```
 
