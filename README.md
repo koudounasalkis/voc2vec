@@ -15,7 +15,7 @@ voc2vec is the **first universal representation model for vocalization tasks**.
 
 > [!IMPORTANT]  
 **04/14/2025.** We released a new model, [voc2vec-hubert-ls-pt](https://huggingface.co/alkiskoudounas/voc2vec-hubert-ls-pt), that continues pre-training from a HuBERT-like model originally pre-trained on LibriSpeech.
-This model currently achieves state-of-the-art results (see the [Results section](#results).
+This model currently achieves state-of-the-art results (see the [Results section](#results)).
 
 ## Table of Contents
 
@@ -96,8 +96,9 @@ from transformers import AutoModelForAudioClassification, AutoFeatureExtractor
 audio_array, sr = librosa.load("path_to_audio.wav", sr=16000)
 
 ## Load model and feature extractor
-model = AutoModelForAudioClassification.from_pretrained("alkiskoudounas/voc2vec")
-feature_extractor = AutoFeatureExtractor.from_pretrained("alkiskoudounas/voc2vec")
+MODEL_NAME = "alkiskoudounas/voc2vec-hubert-ls" # alkiskoudounas/voc2vec, alkiskoudounas/voc2vec-as-pt, alkiskoudounas/voc2vec-ls-pt, alkiskoudounas/voc2vec-hubert-ls
+model = AutoModelForAudioClassification.from_pretrained(MODEL_NAME)   
+feature_extractor = AutoFeatureExtractor.from_pretrained(MODEL_NAME) 
 
 ## Extract features
 inputs = feature_extractor(audio_array.squeeze(), sampling_rate=feature_extractor.sampling_rate, padding=True, return_tensors="pt")
