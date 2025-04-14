@@ -2,9 +2,10 @@
 
 This repository contains the code for the paper "**voc2vec: A Foundation Model for Non-Verbal Vocalization**", accepted at ICASSP 2025.
 
+[![voc2vec-hubert-LS](https://img.shields.io/badge/voc2vec_hubert_LS-HuggingFace-blue)](https://huggingface.co/alkiskoudounas/voc2vec-hubert-ls-pt)
+[![voc2vec-LS](https://img.shields.io/badge/voc2vec_LS-HuggingFace-red)](https://huggingface.co/alkiskoudounas/voc2vec-ls-pt)
+[![voc2vec-AS](https://img.shields.io/badge/voc2vec_AS-HuggingFace-green)](https://huggingface.co/alkiskoudounas/voc2vec-as-pt)
 [![voc2vec](https://img.shields.io/badge/voc2vec-HuggingFace-yellow)](https://huggingface.co/alkiskoudounas/voc2vec)
-[![voc2vec-LS](https://img.shields.io/badge/voc2vecLS-HuggingFace-blue)](https://huggingface.co/alkiskoudounas/voc2vec-ls-pt)
-[![voc2vec-AS](https://img.shields.io/badge/voc2vecAS-HuggingFace-green)](https://huggingface.co/alkiskoudounas/voc2vec-as-pt)
 
 We propose a novel foundation model, **voc2vec**, specifically designed for non-verbal human data leveraging exclusively open-source non-verbal audio datasets. We employ a collection of 10 datasets covering around 125 hours of non-verbal audio.
 
@@ -12,10 +13,15 @@ Experimental results prove that voc2vec is effective in non-verbal vocalization 
 
 voc2vec is the **first universal representation model for vocalization tasks**.
 
+> [!IMPORTANT]  
+**04/14/2025.** We released a new model, [voc2vec-hubert-ls-pt](https://huggingface.co/alkiskoudounas/voc2vec-hubert-ls-pt), that continues pre-training from a HuBERT-like model originally pre-trained on LibriSpeech.
+This model currently achieves state-of-the-art results (see the [Results section](#results).
+
 ## Table of Contents
 
 - [Pretraining](#pretraining)
 - [Finetuning](#finetuning)
+- [Results](#results)
 - [Usage](#usage)
 - [Models](#models)
 - [Citation](#citation)
@@ -57,6 +63,18 @@ The datasets and their characteristics are summarized in the table below.
 | NonVerbal Vocalization        |     16     |    0.6   |     800    |       3.10      |
 | VIVAE                         |      6     |   0.27   |    1085    |       0.90      |
 
+## Results 
+
+Here are the results of the voc2vec collection on the six datasets mentioned above:
+
+| Model | Architecture | Pre-training DS | UAR | F1 Macro |
+|--------|-------------|-------------|-----------|-----------|
+| **voc2vec** | wav2vec 2.0 | Voc125 | .612±.212 | .580±.230 |
+| **voc2vec-as-pt** | wav2vec 2.0 | AudioSet + Voc125 | .603±.183 | .574±.194 |
+| **voc2vec-ls-pt** | wav2vec 2.0 | LibriSpeech + Voc125 | .661±.206 | .636±.223 |
+| **voc2vec-hubert-ls-pt** | HuBERT | LibriSpeech + Voc125 | **.696±.189** | **.678±.200** |
+| **wav2vec2-ls** | wav2vec 2.0 | LibriSpeech | .599±.237 | .569±.259 |
+| **hubert-ls** | HuBERT | LibriSpeech | .627±.214 | .611±.222 |
 
 ## Usage
 
@@ -96,10 +114,11 @@ We open-source three models:
 | Model | Description | Link |
 |--------|-------------|------|
 | **voc2vec** | Pre-trained model on **125 hours of non-verbal audio**. | [🔗 Model](https://huggingface.co/alkiskoudounas/voc2vec) |
-| **voc2vec-as-pt** | Continues pre-training from a model that was **initially trained on the AudioSet dataset**. | [🔗 Model](https://huggingface.co/alkiskoudounas/voc2vec-as-pt) |
-| **voc2vec-ls-pt** | Continues pre-training from a model that was **initially trained on the LibriSpeech dataset**. | [🔗 Model](https://huggingface.co/alkiskoudounas/voc2vec-ls-pt) |
+| **voc2vec-as-pt** | Continues pre-training from a wav2vec2-like model that was **initially trained on the AudioSet dataset**. | [🔗 Model](https://huggingface.co/alkiskoudounas/voc2vec-as-pt) |
+| **voc2vec-ls-pt** | Continues pre-training from a wav2vec2-like model that was **initially trained on the LibriSpeech dataset**. | [🔗 Model](https://huggingface.co/alkiskoudounas/voc2vec-ls-pt) |
+| **voc2vec-hubert-ls-pt** | Continues pre-training from a hubert-like model that was **initially trained on the LibriSpeech dataset**. | [🔗 Model](https://huggingface.co/alkiskoudounas/voc2vec-hubert-ls-pt) |
 
-For more information about the model, please refer to the [paper]().
+For more information about the model, please refer to the [paper](https://ieeexplore.ieee.org/abstract/document/10890672).
 
 ## Citation
 
